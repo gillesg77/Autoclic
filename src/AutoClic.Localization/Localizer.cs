@@ -40,6 +40,7 @@ public sealed class Localizer : INotifyPropertyChanged
     private readonly List<LanguageInfo> _languages = [];
 
     private string _language = FallbackLanguage;
+    private CultureInfo _culture = CultureInfo.InvariantCulture;
 
     public static Localizer Current { get; } = new();
 
@@ -48,6 +49,28 @@ public sealed class Localizer : INotifyPropertyChanged
     public event EventHandler? LanguageChanged;
 
     public IReadOnlyList<LanguageInfo> Languages => _languages;
+
+    /// <summary>
+    /// Culture de formatage correspondant à la langue choisie.
+    /// </summary>
+    /// <remarks>
+    /// Sans elle, les nombres garderaient les conventions du système : « 71 % » avec
+    /// une espace avant le signe, correct en français, fautif en anglais. Changer de
+    /// langue doit changer la ponctuation des chiffres, pas seulement les mots.
+    /// </remarks>
+    public CultureInfo Culture => _culture;
+
+    private static CultureInfo CultureFor(string code)
+    {
+        try
+        {
+            return CultureInfo.GetCultureInfo(code);
+        }
+        catch (CultureNotFoundException)
+        {
+            return CultureInfo.InvariantCulture;
+        }
+    }
 
     public string Language
     {
@@ -61,6 +84,7 @@ public sealed class Localizer : INotifyPropertyChanged
             }
 
             _language = value;
+            _culture = CultureFor(value);
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Language)));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Item[]"));
             LanguageChanged?.Invoke(this, EventArgs.Empty);
@@ -87,7 +111,7 @@ public sealed class Localizer : INotifyPropertyChanged
     public string Format(string key, params object?[] args)
     {
         string pattern = Lookup(key) ?? key;
-        return args.Length == 0 ? pattern : string.Format(CultureInfo.CurrentCulture, pattern, args);
+        return args.Length == 0 ? pattern : string.Format(_culture, pattern, args);
     }
 
     /// <summary>
@@ -112,7 +136,7 @@ public sealed class Localizer : INotifyPropertyChanged
         {
             pattern = pattern.Replace(
                 "{" + name + "}",
-                Convert.ToString(value, CultureInfo.CurrentCulture) ?? string.Empty,
+                Convert.ToString(value, _culture) ?? string.Empty,
                 StringComparison.Ordinal);
         }
 
@@ -134,7 +158,7 @@ public sealed class Localizer : INotifyPropertyChanged
 
         string Percent(string name) =>
             facts.GetValueOrDefault(name) is double d
-                ? d.ToString("P0", CultureInfo.CurrentCulture)
+                ? d.ToString("P0", _culture)
                 : string.Empty;
 
         bool pixel = facts.GetValueOrDefault("matching")?.ToString() == "Pixel";
@@ -159,7 +183,7 @@ public sealed class Localizer : INotifyPropertyChanged
             ? Format("cause.rendering", facts.GetValueOrDefault("tolerance"))
             : this["cause.theme"]);
 
-        enriched["causes"] = string.Join(" ; ", causes);
+        enriched["causes"] = string.Join(this["list.separator"], causes);
 
         return enriched;
     }
@@ -189,6 +213,7 @@ public sealed class Localizer : INotifyPropertyChanged
         }
 
         _language = Resolve(preferred);
+        _culture = CultureFor(_language);
 
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Languages)));
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Language)));

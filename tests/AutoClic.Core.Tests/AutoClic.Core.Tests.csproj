@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\AutoClic.Core\AutoClic.Core.csproj" />
+    <ProjectReference Include="..\..\src\AutoClic.Localization\AutoClic.Localization.csproj" />
   </ItemGroup>
 
 </Project>

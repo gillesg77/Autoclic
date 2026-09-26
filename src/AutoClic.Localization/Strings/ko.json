@@ -1,9 +1,7 @@
 {
   "language.name": "한국어",
-
   "app.title": "매크로 레코더",
   "app.subtitle": "키보드와 마우스를 창을 기준으로 기록하고 재생합니다.",
-
   "action.record": "기록",
   "action.stop": "중지",
   "action.simulate": "시뮬레이션",
@@ -17,7 +15,6 @@
   "action.systemMenu": "시스템 메뉴",
   "action.systemMenu.tip": "시스템 메뉴 (Alt+Space)",
   "action.language": "언어",
-
   "target.title": "대상 창",
   "target.hint": "위치가 이 창을 기준으로 기록됩니다. 창을 옮기거나 크기를 바꿔도 매크로가 어긋나지 않습니다.",
   "target.none": "없음 — 화면 좌표 사용",
@@ -25,7 +22,6 @@
   "target.anchor.nearest": "가장 가까운 가장자리에 고정",
   "target.anchor.topLeft": "왼쪽 위 모서리와의 거리 유지",
   "target.anchor.scale": "비례해서 확대·축소",
-
   "reference.title": "시각적 기준점",
   "reference.hint": "선택 사항입니다. 재생할 때 찾지 못하면 그 자리에 있는 것을 클릭하지 않고 매크로가 멈춥니다.",
   "reference.define": "기준점 지정…",
@@ -43,7 +39,6 @@
   "reference.defined.outlined": ", 윤곽 지정",
   "reference.targetFirst": "먼저 대상 창을 선택하세요.",
   "reference.targetGone": "선택하는 동안 대상 창이 사라졌습니다.",
-
   "playback.title": "재생",
   "playback.mouseMoves": "마우스 이동",
   "playback.mouseMoves.on": "따라감",
@@ -51,13 +46,10 @@
   "playback.mouseMoves.hint": "무시하면 기록도 재생도 하지 않아, 커서가 클릭에서 다음 클릭으로 곧바로 이동합니다. 드래그 중의 이동은 그대로 재생됩니다.",
   "playback.repeat": "반복 횟수",
   "playback.speed": "속도 (×)",
-
   "macro.title": "매크로",
-
   "events.title": "이벤트",
   "events.empty.title": "메모리에 매크로가 없습니다",
   "events.empty.hint": "대상 창을 고른 뒤 기록을 누르세요. F9 로 기록이 끝납니다.",
-
   "event.key.down": "키 누름 — VK {0}",
   "event.key.up": "키 뗌 — VK {0}",
   "event.move": "이동 → {0}",
@@ -67,7 +59,6 @@
   "event.wheel.horizontal": "{1} 에서 가로 휠 {0}",
   "event.position.screen": "({0}, {1})",
   "event.position.window": "창 안 ({0}, {1})",
-
   "status.ready": "준비됨. F9 로 기록을 멈추고, Esc 로 재생을 중단합니다.",
   "status.recording.window": "“{0}” 기준으로 기록 중 — 멈추려면 F9.",
   "status.recording.screen": "화면 좌표로 기록 중 — 멈추려면 F9.",
@@ -92,10 +83,8 @@
   "status.readFailed": "읽을 수 없습니다: {0}",
   "status.writeFailed": "쓸 수 없습니다: {0}",
   "status.targetMissing": "창 “{0}” 을 찾지 못했습니다: 위치가 화면 좌표로 기록됩니다.",
-
   "picker.size": "{0} × {1} px",
   "picker.tooSmall": "{0} × {1} px — 너무 작음",
-
   "dialog.reference.title": "기준점 미리 보기",
   "dialog.reference.intro": "기준점으로 쓰일 픽셀을 확대해 보여 줍니다. 클릭해서 윤곽의 꼭짓점을 찍으면, 윤곽 밖은 비교에서 제외됩니다. 윤곽을 그리지 않으면 사각형 전체를 사용합니다.",
   "dialog.reference.undo": "마지막 점 제거",
@@ -110,7 +99,6 @@
   "dialog.reference.hint.pixel": "픽셀 단위 비교는 어떤 차이도 놓치지 않지만, 눈에 보이지 않는 렌더링 차이 — 안티앨리어싱, 마우스 오버, 애니메이션 — 만으로도 재생이 멈춥니다. 그럴 때는 허용 오차를 높이세요.",
   "dialog.reference.hint.correlation": "상관 비교는 색이 아니라 형태를 봅니다. 테마 변경이나 마우스 오버는 견디지만, 이웃한 요소와 혼동할 수 있습니다.",
   "dialog.reference.confirm": "이 기준점 사용",
-
   "dialog.cleanup.title": "매크로 정리",
   "dialog.cleanup.removeMoves": "클릭 사이의 이동 제거",
   "dialog.cleanup.removeMoves.hint": "화면에서 요소를 찾던 순간의 이동입니다.",
@@ -132,9 +120,7 @@
   "dialog.cleanup.result.unchanged": "길이 그대로 ({0}초)",
   "dialog.cleanup.result.moves": "이동 {0}개 제거, 경유점 {1}개 추가.",
   "dialog.cleanup.apply": "적용",
-
   "common.cancel": "취소",
-
   "error.unknown": "예기치 않은 오류가 발생했습니다.",
   "error.targetWindowNotFound": "창 “{target}” 을 찾을 수 없습니다. 매크로를 재생하기 전에 해당 응용 프로그램을 여세요.",
   "error.windowCaptureFailed": "대상 창을 캡처할 수 없습니다. 창이 닫혔거나 최소화되었을 수 있고, 응용 프로그램이 캡처를 거부했을 수도 있습니다.",
@@ -145,11 +131,11 @@
   "error.hookInstallFailed": "시스템이 저수준 {hook} 후크 설치를 거부했습니다.",
   "error.macroFileInvalid": "“{path}” 에 올바른 매크로가 없습니다.",
   "error.noTargetWindow": "대상 창이 지정되지 않았습니다.",
-
   "measure.pixel": "픽셀 {0} 일치, 임계값 {1}",
   "measure.correlation": "상관도 {0}, 임계값 {1}",
   "cause.shrunk": "창이 작아졌고 ({0}×{1} px, 기록 당시 {2}×{3} px), 인터페이스가 요소를 옮기는 대신 숨겼을 수 있습니다",
   "cause.otherScreen": "응용 프로그램이 기록 당시와 같은 화면을 보여 주고 있지 않습니다",
   "cause.rendering": "렌더링이 채널당 {0} 단계 넘게 다릅니다 — 마우스 오버, 애니메이션, 테마 또는 디스플레이 배율. 허용 오차를 높이거나, 윤곽을 더 좁게 잡거나, 상관 비교로 바꾸세요",
-  "cause.theme": "테마, 언어 또는 디스플레이 배율이 바뀌었습니다"
+  "cause.theme": "테마, 언어 또는 디스플레이 배율이 바뀌었습니다",
+  "list.separator": "; "
 }

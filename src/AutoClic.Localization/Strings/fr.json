@@ -136,5 +136,6 @@
   "cause.rendering": "le rendu diffère de plus de {0} niveaux par canal — survol, animation, thème ou mise à l'échelle de l'affichage. Augmenter la tolérance, détourer plus serré, ou passer en comparaison par corrélation",
   "cause.theme": "le thème, la langue ou la mise à l'échelle de l'affichage a changé",
   "picker.size": "{0} × {1} px",
-  "picker.tooSmall": "{0} × {1} px — trop petit"
+  "picker.tooSmall": "{0} × {1} px — trop petit",
+  "list.separator": " ; "
 }

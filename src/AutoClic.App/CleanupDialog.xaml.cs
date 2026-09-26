@@ -135,8 +135,8 @@ public sealed partial class CleanupDialog : Window
 
         (_, CleanupReport report) = MacroCleaner.Clean(_macro, options);
 
-        string avant = report.DurationBefore.TotalSeconds.ToString("F1", CultureInfo.CurrentCulture);
-        string apres = report.DurationAfter.TotalSeconds.ToString("F1", CultureInfo.CurrentCulture);
+        string avant = report.DurationBefore.TotalSeconds.ToString("F1", Loc.Culture);
+        string apres = report.DurationAfter.TotalSeconds.ToString("F1", Loc.Culture);
 
         string duration =
             Math.Abs(report.DurationAfter.TotalMilliseconds - report.DurationBefore.TotalMilliseconds) < 1

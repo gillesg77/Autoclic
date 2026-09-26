@@ -1,9 +1,7 @@
 {
   "language.name": "Português",
-
   "app.title": "Gravador de macros",
   "app.subtitle": "Grava e reproduz teclado e rato, em relação a uma janela.",
-
   "action.record": "Gravar",
   "action.stop": "Parar",
   "action.simulate": "Simular",
@@ -17,7 +15,6 @@
   "action.systemMenu": "Menu do sistema",
   "action.systemMenu.tip": "Menu do sistema (Alt+Espaço)",
   "action.language": "Idioma",
-
   "target.title": "Janela de destino",
   "target.hint": "As posições passam a ser relativas a esta janela: movê-la ou redimensioná-la deixa de invalidar a macro.",
   "target.none": "Nenhuma — coordenadas do ecrã",
@@ -25,7 +22,6 @@
   "target.anchor.nearest": "Ancorar ao bordo mais próximo",
   "target.anchor.topLeft": "Manter a distância ao canto superior esquerdo",
   "target.anchor.scale": "Escalar proporcionalmente",
-
   "reference.title": "Marca visual",
   "reference.hint": "Opcional. Se não for encontrada na reprodução, a macro pára em vez de clicar no que ali estiver.",
   "reference.define": "Definir uma marca…",
@@ -43,7 +39,6 @@
   "reference.defined.outlined": ", recortada",
   "reference.targetFirst": "Escolha primeiro uma janela de destino.",
   "reference.targetGone": "A janela de destino desapareceu durante a seleção.",
-
   "playback.title": "Reprodução",
   "playback.mouseMoves": "Movimentos do rato",
   "playback.mouseMoves.on": "Seguidos",
@@ -51,13 +46,10 @@
   "playback.mouseMoves.hint": "Ignorados, não são gravados nem reproduzidos: o cursor teletransporta-se de um clique para o seguinte. Os movimentos de um arrasto continuam a ser reproduzidos.",
   "playback.repeat": "Repetições",
   "playback.speed": "Velocidade (×)",
-
   "macro.title": "Macro",
-
   "events.title": "Eventos",
   "events.empty.title": "Nenhuma macro em memória",
   "events.empty.hint": "Escolha uma janela de destino e prima Gravar. F9 pára a captura.",
-
   "event.key.down": "Tecla premida — VK {0}",
   "event.key.up": "Tecla libertada — VK {0}",
   "event.move": "Movimento → {0}",
@@ -67,7 +59,6 @@
   "event.wheel.horizontal": "Roda horizontal {0} em {1}",
   "event.position.screen": "({0}, {1})",
   "event.position.window": "({0}, {1}) na janela",
-
   "status.ready": "Pronto. F9 pára a gravação, Esc interrompe a reprodução.",
   "status.recording.window": "A gravar em relação a «{0}» — F9 para parar.",
   "status.recording.screen": "A gravar em coordenadas do ecrã — F9 para parar.",
@@ -92,10 +83,8 @@
   "status.readFailed": "Não é possível ler: {0}",
   "status.writeFailed": "Não é possível escrever: {0}",
   "status.targetMissing": "Janela «{0}» não encontrada: as posições serão em coordenadas do ecrã.",
-
   "picker.size": "{0} × {1} px",
   "picker.tooSmall": "{0} × {1} px — demasiado pequeno",
-
   "dialog.reference.title": "Pré-visualização da marca",
   "dialog.reference.intro": "Estes são os pixels que servirão de marca, ampliados. Clique para colocar os vértices de um recorte: tudo o que ficar de fora é ignorado na comparação. Sem recorte, é usado o retângulo inteiro.",
   "dialog.reference.undo": "Remover o último ponto",
@@ -110,7 +99,6 @@
   "dialog.reference.hint.pixel": "A comparação ao pixel não deixa passar nada, mas uma diferença de desenho invisível ao olho — suavização, cursor por cima, animação — basta para interromper a reprodução. Aumente a tolerância se isso acontecer.",
   "dialog.reference.hint.correlation": "A correlação compara formas, não cores: aguenta uma mudança de tema ou o cursor por cima, ao preço de poder confundir-se com um elemento vizinho.",
   "dialog.reference.confirm": "Usar esta marca",
-
   "dialog.cleanup.title": "Limpar a macro",
   "dialog.cleanup.removeMoves": "Remover os movimentos entre os cliques",
   "dialog.cleanup.removeMoves.hint": "Os do momento em que se procurava o elemento no ecrã.",
@@ -132,9 +120,7 @@
   "dialog.cleanup.result.unchanged": "duração inalterada ({0} s)",
   "dialog.cleanup.result.moves": "{0} movimento(s) removido(s), {1} ponto(s) de passagem adicionado(s).",
   "dialog.cleanup.apply": "Aplicar",
-
   "common.cancel": "Cancelar",
-
   "error.unknown": "Ocorreu um erro inesperado.",
   "error.targetWindowNotFound": "Janela «{target}» não encontrada. Abra a aplicação antes de reproduzir a macro.",
   "error.windowCaptureFailed": "Não foi possível capturar a janela de destino. Pode ter sido fechada ou minimizada, ou a aplicação recusa a captura.",
@@ -145,11 +131,11 @@
   "error.hookInstallFailed": "O sistema recusou a instalação do gancho de baixo nível {hook}.",
   "error.macroFileInvalid": "«{path}» não contém uma macro válida.",
   "error.noTargetWindow": "Não foi designada nenhuma janela de destino.",
-
   "measure.pixel": "{0} dos pixels coincidem, limiar {1}",
   "measure.correlation": "correlação {0}, limiar {1}",
   "cause.shrunk": "a janela encolheu ({0}×{1} px contra {2}×{3} px na gravação) e a interface pode ter ocultado o elemento em vez de o deslocar",
   "cause.otherScreen": "a aplicação não mostra o mesmo ecrã que na gravação",
   "cause.rendering": "o desenho difere em mais de {0} níveis por canal — cursor por cima, animação, tema ou escala do ecrã. Aumente a tolerância, recorte mais justo, ou passe à comparação por correlação",
-  "cause.theme": "o tema, o idioma ou a escala do ecrã mudou"
+  "cause.theme": "o tema, o idioma ou a escala do ecrã mudou",
+  "list.separator": "; "
 }

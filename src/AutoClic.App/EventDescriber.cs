@@ -48,7 +48,7 @@ internal static class EventDescriber
 
             MouseWheelEvent w => loc.Format(
                 w.IsHorizontal ? "event.wheel.horizontal" : "event.wheel.vertical",
-                w.Delta.ToString("+#;-#;0", System.Globalization.CultureInfo.CurrentCulture),
+                w.Delta.ToString("+#;-#;0", Localizer.Current.Culture),
                 Position(loc, w)),
 
             _ => string.Empty,

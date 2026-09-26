@@ -31,7 +31,12 @@ public readonly record struct PickedRegion(int ClientX, int ClientY, int Width, 
 /// Fournis par l'appelant : le cœur dessine, il ne rédige pas. C'est ce qui rend le
 /// calque traduisible sans le modifier.
 /// </remarks>
-public sealed record PickerLabels(string Instruction, string Size, string TooSmall);
+public sealed record PickerLabels(string Instruction, string Size, string TooSmall)
+{
+    /// <summary>Culture servant à mettre en forme les nombres de ces libellés.</summary>
+    public System.Globalization.CultureInfo Culture { get; init; }
+        = System.Globalization.CultureInfo.CurrentCulture;
+}
 
 /// <summary>
 /// Laisse l'utilisateur entourer un élément dans la fenêtre cible en traçant un
@@ -331,7 +336,7 @@ public sealed class ReferencePicker : IDisposable
         }
 
         string label = string.Format(
-            System.Globalization.CultureInfo.CurrentCulture,
+            _labels.Culture,
             valid ? _labels.Size : _labels.TooSmall,
             selection.Width,
             selection.Height);

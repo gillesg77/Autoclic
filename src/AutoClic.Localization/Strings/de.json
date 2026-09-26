@@ -1,9 +1,7 @@
 {
   "language.name": "Deutsch",
-
   "app.title": "Makrorekorder",
   "app.subtitle": "Zeichnet Tastatur und Maus auf und spielt sie ab, bezogen auf ein Fenster.",
-
   "action.record": "Aufzeichnen",
   "action.stop": "Anhalten",
   "action.simulate": "Simulieren",
@@ -17,7 +15,6 @@
   "action.systemMenu": "Systemmenü",
   "action.systemMenu.tip": "Systemmenü (Alt+Leertaste)",
   "action.language": "Sprache",
-
   "target.title": "Zielfenster",
   "target.hint": "Positionen beziehen sich dann auf dieses Fenster: Verschieben oder Größenänderung macht das Makro nicht mehr unbrauchbar.",
   "target.none": "Keines — Bildschirmkoordinaten",
@@ -25,7 +22,6 @@
   "target.anchor.nearest": "An der nächsten Kante verankern",
   "target.anchor.topLeft": "Abstand zur oberen linken Ecke beibehalten",
   "target.anchor.scale": "Proportional skalieren",
-
   "reference.title": "Visuelle Marke",
   "reference.hint": "Optional. Wird sie beim Abspielen nicht gefunden, hält das Makro an, statt auf das zu klicken, was dort liegt.",
   "reference.define": "Marke festlegen…",
@@ -43,7 +39,6 @@
   "reference.defined.outlined": ", freigestellt",
   "reference.targetFirst": "Wählen Sie zuerst ein Zielfenster.",
   "reference.targetGone": "Das Zielfenster ist während der Auswahl verschwunden.",
-
   "playback.title": "Abspielen",
   "playback.mouseMoves": "Mausbewegungen",
   "playback.mouseMoves.on": "Verfolgt",
@@ -51,13 +46,10 @@
   "playback.mouseMoves.hint": "Ignoriert werden sie weder aufgezeichnet noch abgespielt: der Zeiger springt von Klick zu Klick. Bewegungen innerhalb eines Ziehvorgangs werden weiterhin abgespielt.",
   "playback.repeat": "Wiederholungen",
   "playback.speed": "Geschwindigkeit (×)",
-
   "macro.title": "Makro",
-
   "events.title": "Ereignisse",
   "events.empty.title": "Kein Makro im Speicher",
   "events.empty.hint": "Wählen Sie ein Zielfenster und dann Aufzeichnen. F9 beendet die Aufnahme.",
-
   "event.key.down": "Taste gedrückt — VK {0}",
   "event.key.up": "Taste losgelassen — VK {0}",
   "event.move": "Bewegung → {0}",
@@ -67,7 +59,6 @@
   "event.wheel.horizontal": "Rad waagerecht {0} bei {1}",
   "event.position.screen": "({0}, {1})",
   "event.position.window": "({0}, {1}) im Fenster",
-
   "status.ready": "Bereit. F9 beendet die Aufnahme, Esc unterbricht das Abspielen.",
   "status.recording.window": "Aufzeichnung bezogen auf „{0}“ — F9 zum Beenden.",
   "status.recording.screen": "Aufzeichnung in Bildschirmkoordinaten — F9 zum Beenden.",
@@ -92,10 +83,8 @@
   "status.readFailed": "Lesen nicht möglich: {0}",
   "status.writeFailed": "Schreiben nicht möglich: {0}",
   "status.targetMissing": "Fenster „{0}“ nicht gefunden: Positionen werden in Bildschirmkoordinaten aufgezeichnet.",
-
   "picker.size": "{0} × {1} px",
   "picker.tooSmall": "{0} × {1} px — zu klein",
-
   "dialog.reference.title": "Vorschau der Marke",
   "dialog.reference.intro": "Dies sind die Pixel, die als Marke dienen, vergrößert. Klicken Sie, um die Eckpunkte einer Freistellung zu setzen: was außerhalb bleibt, wird beim Vergleich ignoriert. Ohne Freistellung wird das ganze Rechteck verwendet.",
   "dialog.reference.undo": "Letzten Punkt entfernen",
@@ -110,7 +99,6 @@
   "dialog.reference.hint.pixel": "Der pixelgenaue Vergleich lässt nichts durch, doch ein für das Auge unsichtbarer Unterschied — Kantenglättung, Mauszeiger darüber, Animation — genügt, um das Abspielen anzuhalten. Erhöhen Sie dann die Toleranz.",
   "dialog.reference.hint.correlation": "Die Korrelation vergleicht Formen statt Farben: sie übersteht einen Themenwechsel oder einen Mauszeiger darüber, um den Preis einer möglichen Verwechslung mit einem Nachbarelement.",
   "dialog.reference.confirm": "Diese Marke verwenden",
-
   "dialog.cleanup.title": "Makro bereinigen",
   "dialog.cleanup.removeMoves": "Bewegungen zwischen den Klicks entfernen",
   "dialog.cleanup.removeMoves.hint": "Jene aus dem Moment, in dem das Element auf dem Bildschirm gesucht wurde.",
@@ -132,9 +120,7 @@
   "dialog.cleanup.result.unchanged": "Dauer unverändert ({0} s)",
   "dialog.cleanup.result.moves": "{0} Bewegung(en) entfernt, {1} Zwischenpunkt(e) hinzugefügt.",
   "dialog.cleanup.apply": "Anwenden",
-
   "common.cancel": "Abbrechen",
-
   "error.unknown": "Ein unerwarteter Fehler ist aufgetreten.",
   "error.targetWindowNotFound": "Fenster „{target}“ nicht gefunden. Öffnen Sie die Anwendung, bevor Sie das Makro abspielen.",
   "error.windowCaptureFailed": "Das Zielfenster konnte nicht erfasst werden. Vielleicht wurde es geschlossen oder minimiert, oder die Anwendung verweigert die Erfassung.",
@@ -145,11 +131,11 @@
   "error.hookInstallFailed": "Das System hat die Installation des Low-Level-Hooks {hook} verweigert.",
   "error.macroFileInvalid": "„{path}“ enthält kein gültiges Makro.",
   "error.noTargetWindow": "Es wurde kein Zielfenster bestimmt.",
-
   "measure.pixel": "{0} der Pixel stimmen überein, Schwelle {1}",
   "measure.correlation": "Korrelation {0}, Schwelle {1}",
   "cause.shrunk": "das Fenster ist geschrumpft ({0}×{1} px gegenüber {2}×{3} px bei der Aufzeichnung) und die Oberfläche hat das Element möglicherweise ausgeblendet, statt es zu verschieben",
   "cause.otherScreen": "die Anwendung zeigt nicht dieselbe Ansicht wie bei der Aufzeichnung",
   "cause.rendering": "die Darstellung weicht um mehr als {0} Stufen je Kanal ab — Mauszeiger darüber, Animation, Thema oder Anzeigeskalierung. Erhöhen Sie die Toleranz, stellen Sie enger frei, oder wechseln Sie zum Korrelationsvergleich",
-  "cause.theme": "das Thema, die Sprache oder die Anzeigeskalierung hat sich geändert"
+  "cause.theme": "das Thema, die Sprache oder die Anzeigeskalierung hat sich geändert",
+  "list.separator": "; "
 }

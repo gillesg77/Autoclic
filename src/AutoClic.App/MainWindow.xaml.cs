@@ -397,7 +397,10 @@ public sealed partial class MainWindow : Window
             _picker.Start(handle, new PickerLabels(
                 Loc["reference.draw"],
                 Loc["picker.size"],
-                Loc["picker.tooSmall"]));
+                Loc["picker.tooSmall"])
+            {
+                Culture = Loc.Culture,
+            });
         }
         catch (Exception ex)
         {
@@ -531,7 +534,7 @@ public sealed partial class MainWindow : Window
             reference.Width,
             reference.Height,
             comparison,
-            reference.MinimumScore.ToString("P0", CultureInfo.CurrentCulture),
+            reference.MinimumScore.ToString("P0", Loc.Culture),
             reference.SearchRadius);
     }
 
@@ -611,7 +614,7 @@ public sealed partial class MainWindow : Window
         StatusText.Text = Loc.Format(
                 "status.recorded",
                 _macro.Events.Count,
-                _macro.Duration.TotalSeconds.ToString("F1", CultureInfo.CurrentCulture))
+                _macro.Duration.TotalSeconds.ToString("F1", Loc.Culture))
             + (_macro.Target is null ? "." : Loc.Format("status.recorded.anchored", anchored));
     }
 
@@ -709,8 +712,8 @@ public sealed partial class MainWindow : Window
     private string ReferenceSummary(MacroPlayer player) =>
         player.LastReferenceScore is { } score && _macro?.Reference is { } reference
             ? reference.Matching == ReferenceMatching.Pixel
-                ? " " + Loc.Format("status.reference.pixel", score.ToString("P1", CultureInfo.CurrentCulture))
-                : " " + Loc.Format("status.reference.correlation", score.ToString("P1", CultureInfo.CurrentCulture))
+                ? " " + Loc.Format("status.reference.pixel", score.ToString("P1", Loc.Culture))
+                : " " + Loc.Format("status.reference.correlation", score.ToString("P1", Loc.Culture))
             : string.Empty;
 
     private void OnProgress(object? sender, MacroProgress p) =>
@@ -784,8 +787,8 @@ public sealed partial class MainWindow : Window
             "status.cleaned",
             report.EventsBefore,
             report.EventsAfter,
-            report.DurationBefore.TotalSeconds.ToString("F1", CultureInfo.CurrentCulture),
-            report.DurationAfter.TotalSeconds.ToString("F1", CultureInfo.CurrentCulture));
+            report.DurationBefore.TotalSeconds.ToString("F1", Loc.Culture),
+            report.DurationAfter.TotalSeconds.ToString("F1", Loc.Culture));
     }
 
     // --- Fichiers ---------------------------------------------------------
@@ -884,7 +887,7 @@ public sealed partial class MainWindow : Window
         {
             MacroEvent ev = macro.Events[i];
             Rows.Add(new EventRow(
-                (i + 1).ToString(CultureInfo.CurrentCulture),
+                (i + 1).ToString(Loc.Culture),
                 $"+{ev.DelayMs} ms",
                 EventDescriber.Describe(ev)));
         }
@@ -894,7 +897,7 @@ public sealed partial class MainWindow : Window
 
     private void UpdateEventList()
     {
-        EventCountText.Text = Rows.Count.ToString(CultureInfo.CurrentCulture);
+        EventCountText.Text = Rows.Count.ToString(Loc.Culture);
 
         bool empty = Rows.Count == 0;
         EmptyState.Visibility = empty ? Visibility.Visible : Visibility.Collapsed;

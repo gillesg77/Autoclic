@@ -35,7 +35,12 @@ namespace AutoClic.Core.Vision;
 public readonly record struct ReferenceCheck(
     bool Found, int OffsetX, int OffsetY, double Score, AutoClicException? Error)
 {
-    public static ReferenceCheck Failed(AutoClicException error) => new(false, 0, 0, 0, error);
+    /// <param name="score">
+    /// Meilleure concordance atteinte, quand la recherche a pu aller jusqu'au bout.
+    /// Un échec survenu avant toute comparaison — capture impossible, repère vide — laisse zéro.
+    /// </param>
+    public static ReferenceCheck Failed(AutoClicException error, double score = 0) =>
+        new(false, 0, 0, score, error);
 }
 
 /// <summary>Retrouve le repère visuel dans la fenêtre et en déduit la correction à appliquer.</summary>
@@ -155,7 +160,8 @@ public static class ReferenceResolver
 
         if (found.Score < reference.MinimumScore)
         {
-            return ReferenceCheck.Failed(Explain(reference, shot.Width, shot.Height, found.Score));
+            return ReferenceCheck.Failed(
+                Explain(reference, shot.Width, shot.Height, found.Score), found.Score);
         }
 
         return new ReferenceCheck(true, found.X - expectedX, found.Y - expectedY, found.Score, null);

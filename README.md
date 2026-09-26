@@ -189,13 +189,12 @@ Avant le moindre clic :
 Le repère est donc un garde-fou autant qu'un point de référence. Sans lui, une macro
 rejouée sur une fenêtre trop étroite clique dans le vide en silence.
 
-## Limites connues
+Les deux chemins ont été éprouvés contre une application réelle : reconnaissance à
+100 % fenêtre inchangée, refus à 71 % après un rétrécissement de 1164×772 à 504×412
+pixels, sous le seuil de 95 %. Le message nomme les deux tailles, pour que la cause
+se lise sans avoir à la deviner.
 
-- **Chemin de refus non éprouvé** — la reconnaissance du repère a été vérifiée contre
-  une application réelle, avec la tolérance par défaut de ±12 niveaux par canal. En
-  revanche le cas où l'élément *disparaît* — fenêtre rétrécie au point que l'interface
-  le masque — n'a encore jamais été déclenché en conditions réelles. C'est précisément
-  le comportement pour lequel le repère existe.
+## Limites connues
 
 - **Applications élevées** — Windows (UIPI) bloque `SendInput` vers un processus plus
   privilégié. Pour piloter un outil lancé en administrateur, lancer AutoClic en

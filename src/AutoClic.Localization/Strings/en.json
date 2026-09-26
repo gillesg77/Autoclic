@@ -136,5 +136,6 @@
   "cause.rendering": "rendering differs by more than {0} levels per channel — hover, animation, theme or display scaling. Raise the tolerance, outline more tightly, or switch to correlation matching",
   "cause.theme": "the theme, the language or the display scaling has changed",
   "picker.size": "{0} × {1} px",
-  "picker.tooSmall": "{0} × {1} px — too small"
+  "picker.tooSmall": "{0} × {1} px — too small",
+  "list.separator": "; "
 }
