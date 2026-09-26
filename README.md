@@ -191,6 +191,12 @@ rejouée sur une fenêtre trop étroite clique dans le vide en silence.
 
 ## Limites connues
 
+- **Chemin de refus non éprouvé** — la reconnaissance du repère a été vérifiée contre
+  une application réelle, avec la tolérance par défaut de ±12 niveaux par canal. En
+  revanche le cas où l'élément *disparaît* — fenêtre rétrécie au point que l'interface
+  le masque — n'a encore jamais été déclenché en conditions réelles. C'est précisément
+  le comportement pour lequel le repère existe.
+
 - **Applications élevées** — Windows (UIPI) bloque `SendInput` vers un processus plus
   privilégié. Pour piloter un outil lancé en administrateur, lancer AutoClic en
   administrateur aussi.
