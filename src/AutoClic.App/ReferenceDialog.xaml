@@ -1,0 +1,119 @@
+<Window
+    x:Class="AutoClic.App.ReferenceDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="{x:Bind Loc.Get('dialog.reference.title'), Mode=OneWay}">
+
+    <!-- La rangée de boutons est hors du ScrollViewer : sur un petit écran, un contenu
+         plus haut que la zone de travail ne doit jamais la rendre inatteignable. -->
+    <Grid
+        x:Name="Root"
+        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+        RowDefinitions="*,Auto">
+
+        <Grid.KeyboardAccelerators>
+            <KeyboardAccelerator Key="Escape" Invoked="OnEscape" ScopeOwner="{x:Bind Root}" />
+        </Grid.KeyboardAccelerators>
+
+        <ScrollViewer
+            Grid.Row="0"
+            VerticalScrollBarVisibility="Auto"
+            HorizontalScrollBarVisibility="Auto">
+
+            <StackPanel x:Name="Body" Margin="24,24,24,8" Spacing="14" MaxWidth="600">
+
+                <TextBlock Text="{x:Bind Loc.Get('dialog.reference.title'), Mode=OneWay}" Style="{StaticResource TitleTextBlockStyle}" />
+
+                <TextBlock TextWrapping="Wrap" Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind Loc.Get('dialog.reference.intro'), Mode=OneWay}" />
+
+                <!-- Bornée puis défilante : l'aperçu reste au moins à l'échelle 1:1, sinon
+                     l'utilisateur jugerait des pixels qu'il ne voit pas vraiment. -->
+                <Border
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="6"
+                    HorizontalAlignment="Center"
+                    Padding="8">
+                    <ScrollViewer
+                        MaxWidth="520"
+                        MaxHeight="420"
+                        HorizontalScrollBarVisibility="Auto"
+                        VerticalScrollBarVisibility="Auto"
+                        HorizontalScrollMode="Auto"
+                        VerticalScrollMode="Auto">
+                        <Grid x:Name="ImageHost">
+                            <Image x:Name="PatchImage" Stretch="None" />
+                            <Canvas x:Name="OutlineCanvas" Background="Transparent" PointerPressed="OnCanvasPressed">
+                                <Polygon
+                                    x:Name="OutlineShape"
+                                    Stroke="#FF39FF14"
+                                    StrokeThickness="2"
+                                    Fill="#3039FF14" />
+                            </Canvas>
+                        </Grid>
+                    </ScrollViewer>
+                </Border>
+
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button x:Name="UndoButton" Content="{x:Bind Loc.Get('dialog.reference.undo'), Mode=OneWay}" Click="OnUndoClick" IsEnabled="False" />
+                    <Button x:Name="ClearButton" Content="{x:Bind Loc.Get('dialog.reference.clear'), Mode=OneWay}" Click="OnClearClick" IsEnabled="False" />
+                    <TextBlock
+                        x:Name="OutlineHint"
+                        VerticalAlignment="Center"
+                        Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Spacing="16">
+                    <ComboBox
+                        x:Name="MatchingCombo"
+                        Header="{x:Bind Loc.Get('dialog.reference.matching'), Mode=OneWay}"
+                        Width="300"
+                        SelectedIndex="0"
+                        SelectionChanged="OnMatchingChanged">
+                        <ComboBoxItem Content="{x:Bind Loc.Get('dialog.reference.matching.pixel'), Mode=OneWay}" />
+                        <ComboBoxItem Content="{x:Bind Loc.Get('dialog.reference.matching.correlation'), Mode=OneWay}" />
+                    </ComboBox>
+
+                    <NumberBox
+                        x:Name="ToleranceBox"
+                        Header="{x:Bind Loc.Get('dialog.reference.tolerance'), Mode=OneWay}"
+                        Value="12"
+                        Minimum="0"
+                        Maximum="80"
+                        SmallChange="1"
+                        SpinButtonPlacementMode="Compact"
+                        Width="180" />
+                </StackPanel>
+
+                <TextBlock
+                    x:Name="ModeHint"
+                    TextWrapping="Wrap"
+                    Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <StackPanel
+            Grid.Row="1"
+            Orientation="Horizontal"
+            Spacing="8"
+            HorizontalAlignment="Right"
+            Margin="24,8,24,24">
+            <Button
+                x:Name="ConfirmButton"
+                Content="{x:Bind Loc.Get('dialog.reference.confirm'), Mode=OneWay}"
+                Style="{StaticResource AccentButtonStyle}"
+                Click="OnConfirmClick"
+                MinWidth="160" />
+            <Button
+                x:Name="CancelButton"
+                Content="{x:Bind Loc.Get('common.cancel'), Mode=OneWay}"
+                Click="OnCancelClick"
+                MinWidth="110" />
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <RootNamespace>AutoClic.Core</RootNamespace>
+    <!-- Lecture directe des structures passées par les hooks bas niveau :
+         Marshal.PtrToStructure alloue, or un hook WH_*_LL doit rendre la main
+         avant LowLevelHooksTimeout sous peine d'être désinstallé par Windows. -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Capture d'écran et encodage PNG du repère visuel. Windows uniquement, ce qui
+         est déjà le cas du projet entier. -->
+    <PackageReference Include="System.Drawing.Common" Version="8.0.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- La logique d'ancrage est testée au niveau de l'axe, plus fin et plus lisible
+         que de passer par des fenêtres réelles. -->
+    <InternalsVisibleTo Include="AutoClic.Core.Tests" />
+  </ItemGroup>
+
+</Project>

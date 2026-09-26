@@ -1,0 +1,11 @@
+<Project>
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <Company>gillesg77</Company>
+    <Product>AutoClic</Product>
+    <Version>0.1.0</Version>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,147 @@
+<Window
+    x:Class="AutoClic.App.CleanupDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="{x:Bind Loc.Get('dialog.cleanup.title'), Mode=OneWay}">
+
+    <!-- La rangée de boutons est hors du ScrollViewer : sur un petit écran, un contenu
+         plus haut que la zone de travail ne doit jamais la rendre inatteignable. -->
+    <Grid
+        x:Name="Root"
+        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+        RowDefinitions="*,Auto">
+
+        <Grid.KeyboardAccelerators>
+            <KeyboardAccelerator Key="Escape" Invoked="OnEscape" ScopeOwner="{x:Bind Root}" />
+        </Grid.KeyboardAccelerators>
+
+        <ScrollViewer
+            Grid.Row="0"
+            VerticalScrollBarVisibility="Auto"
+            HorizontalScrollBarVisibility="Auto">
+
+            <StackPanel x:Name="Body" Margin="24,24,24,8" Spacing="14" MaxWidth="560">
+
+                <TextBlock Text="{x:Bind Loc.Get('dialog.cleanup.title'), Mode=OneWay}" Style="{StaticResource TitleTextBlockStyle}" />
+
+                <CheckBox
+                    x:Name="RemoveMovesCheck"
+                    IsChecked="True"
+                    Checked="OnOptionChanged"
+                    Unchecked="OnOptionChanged">
+                    <StackPanel MaxWidth="500">
+                        <TextBlock Text="{x:Bind Loc.Get('dialog.cleanup.removeMoves'), Mode=OneWay}" />
+                        <TextBlock
+                            TextWrapping="Wrap"
+                            Text="{x:Bind Loc.Get('dialog.cleanup.removeMoves.hint'), Mode=OneWay}"
+                            Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
+                    </StackPanel>
+                </CheckBox>
+
+                <CheckBox
+                    x:Name="StraightLineCheck"
+                    IsChecked="True"
+                    Checked="OnOptionChanged"
+                    Unchecked="OnOptionChanged">
+                    <StackPanel MaxWidth="500">
+                        <TextBlock Text="{x:Bind Loc.Get('dialog.cleanup.straight'), Mode=OneWay}" />
+                        <TextBlock
+                            TextWrapping="Wrap"
+                            Text="{x:Bind Loc.Get('dialog.cleanup.straight.hint'), Mode=OneWay}"
+                            Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
+                    </StackPanel>
+                </CheckBox>
+
+                <CheckBox
+                    x:Name="SimplifyDragsCheck"
+                    Checked="OnOptionChanged"
+                    Unchecked="OnOptionChanged">
+                    <StackPanel MaxWidth="500">
+                        <TextBlock Text="{x:Bind Loc.Get('dialog.cleanup.drags'), Mode=OneWay}" />
+                        <TextBlock
+                            TextWrapping="Wrap"
+                            Text="{x:Bind Loc.Get('dialog.cleanup.drags.hint'), Mode=OneWay}"
+                            Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
+                    </StackPanel>
+                </CheckBox>
+
+                <CheckBox
+                    x:Name="KeepIdleTimeCheck"
+                    Checked="OnOptionChanged"
+                    Unchecked="OnOptionChanged">
+                    <StackPanel MaxWidth="500">
+                        <TextBlock Text="{x:Bind Loc.Get('dialog.cleanup.keepIdle'), Mode=OneWay}" />
+                        <TextBlock
+                            TextWrapping="Wrap"
+                            Text="{x:Bind Loc.Get('dialog.cleanup.keepIdle.hint'), Mode=OneWay}"
+                            Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
+                    </StackPanel>
+                </CheckBox>
+
+                <StackPanel Orientation="Horizontal" Spacing="16">
+                    <ComboBox
+                        x:Name="TravelSpeedCombo"
+                        Header="{x:Bind Loc.Get('dialog.cleanup.speed'), Mode=OneWay}"
+                        Width="200"
+                        SelectedIndex="1"
+                        SelectionChanged="OnSelectionChanged">
+                        <ComboBoxItem Content="{x:Bind Loc.Get('dialog.cleanup.speed.fast'), Mode=OneWay}" />
+                        <ComboBoxItem Content="{x:Bind Loc.Get('dialog.cleanup.speed.normal'), Mode=OneWay}" />
+                        <ComboBoxItem Content="{x:Bind Loc.Get('dialog.cleanup.speed.slow'), Mode=OneWay}" />
+                    </ComboBox>
+
+                    <NumberBox
+                        x:Name="MaxDelayBox"
+                        Header="{x:Bind Loc.Get('dialog.cleanup.maxDelay'), Mode=OneWay}"
+                        Value="0"
+                        Minimum="0"
+                        Maximum="10000"
+                        SmallChange="100"
+                        SpinButtonPlacementMode="Compact"
+                        ValueChanged="OnValueChanged"
+                        Width="220" />
+                </StackPanel>
+
+                <TextBlock
+                    TextWrapping="Wrap"
+                    Text="{x:Bind Loc.Get('dialog.cleanup.maxDelay.hint'), Mode=OneWay}"
+                    Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
+
+                <Border
+                    Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="6"
+                    Padding="12">
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="{x:Bind Loc.Get('dialog.cleanup.result'), Mode=OneWay}" FontWeight="SemiBold" />
+                        <TextBlock x:Name="PreviewText" TextWrapping="Wrap" />
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <StackPanel
+            Grid.Row="1"
+            Orientation="Horizontal"
+            Spacing="8"
+            HorizontalAlignment="Right"
+            Margin="24,8,24,24">
+            <Button
+                x:Name="ApplyButton"
+                Content="{x:Bind Loc.Get('dialog.cleanup.apply'), Mode=OneWay}"
+                Style="{StaticResource AccentButtonStyle}"
+                Click="OnApplyClick"
+                MinWidth="130" />
+            <Button
+                x:Name="CancelButton"
+                Content="{x:Bind Loc.Get('common.cancel'), Mode=OneWay}"
+                Click="OnCancelClick"
+                MinWidth="110" />
+        </StackPanel>
+    </Grid>
+</Window>
