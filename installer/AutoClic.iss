@@ -108,6 +108,49 @@ begin
   Result := True;
 end;
 
+{ Télécharge le runtime et l'installe. Renvoie '' si tout s'est bien passé, sinon le
+  message à montrer. Progression indique s'il y a un assistant pour l'afficher. }
+function PoserRuntime(Progression: Boolean): String;
+var
+  CodeRetour: Integer;
+begin
+  Result := '';
+
+  try
+    if Progression then
+    begin
+      PageTelechargement.Clear;
+      PageTelechargement.Add('{#DotNetUrl}', 'windowsdesktop-runtime.exe', '');
+      PageTelechargement.Show;
+      try
+        PageTelechargement.Download;
+      finally
+        PageTelechargement.Hide;
+      end;
+    end
+    else
+      DownloadTemporaryFile('{#DotNetUrl}', 'windowsdesktop-runtime.exe', '', nil);
+  except
+    { Derrière un proxy d'entreprise, le téléchargement peut échouer : on le dit
+      clairement plutôt que d'installer une application qui ne démarrera pas. }
+    Result :=
+      'Le .NET 8 Desktop Runtime n''a pas pu être téléchargé.' + #13#10#13#10 +
+      AddPeriod(GetExceptionMessage) + #13#10#13#10 +
+      'Installez-le manuellement depuis dotnet.microsoft.com, puis relancez cette installation.';
+    Exit;
+  end;
+
+  if not Exec(ExpandConstant('{tmp}\windowsdesktop-runtime.exe'),
+              '/install /quiet /norestart', '', SW_SHOW, ewWaitUntilTerminated, CodeRetour) then
+    CodeRetour := -1;
+
+  { 0 = installé, 3010 = installé, redémarrage nécessaire. }
+  if (CodeRetour <> 0) and (CodeRetour <> 3010) then
+    Result :=
+      Format('L''installation du .NET 8 Desktop Runtime a échoué (code %d).', [CodeRetour]) + #13#10#13#10 +
+      'Installez-le manuellement depuis dotnet.microsoft.com, puis relancez cette installation.';
+end;
+
 procedure InitializeWizard;
 begin
   PageTelechargement := CreateDownloadPage(
@@ -118,46 +161,32 @@ end;
 
 function NextButtonClick(CurPageID: Integer): Boolean;
 var
-  CodeRetour: Integer;
+  Souci: String;
 begin
   Result := True;
 
-  if (CurPageID <> wpReady) or DotNetDesktopPresent then
+  if (CurPageID <> wpReady) or WizardSilent or DotNetDesktopPresent then
     Exit;
 
-  PageTelechargement.Clear;
-  PageTelechargement.Add('{#DotNetUrl}', 'windowsdesktop-runtime.exe', '');
-  PageTelechargement.Show;
+  Souci := PoserRuntime(True);
 
-  try
-    try
-      PageTelechargement.Download;
-    except
-      { Derrière un proxy d'entreprise, le téléchargement peut échouer : on le dit
-        clairement plutôt que d'installer une application qui ne démarrera pas. }
-      SuppressibleMsgBox(
-        'Le .NET 8 Desktop Runtime n''a pas pu être téléchargé.' + #13#10#13#10 +
-        AddPeriod(GetExceptionMessage) + #13#10#13#10 +
-        'Installez-le manuellement depuis dotnet.microsoft.com, puis relancez cette installation.',
-        mbCriticalError, MB_OK, IDOK);
-      Result := False;
-      Exit;
-    end;
-
-    if not Exec(ExpandConstant('{tmp}\windowsdesktop-runtime.exe'),
-                '/install /quiet /norestart', '', SW_SHOW, ewWaitUntilTerminated, CodeRetour) then
-      CodeRetour := -1;
-
-    { 0 = installé, 3010 = installé, redémarrage nécessaire. }
-    if (CodeRetour <> 0) and (CodeRetour <> 3010) then
-    begin
-      SuppressibleMsgBox(
-        Format('L''installation du .NET 8 Desktop Runtime a échoué (code %d).', [CodeRetour]) + #13#10#13#10 +
-        'Installez-le manuellement depuis dotnet.microsoft.com, puis relancez cette installation.',
-        mbCriticalError, MB_OK, IDOK);
-      Result := False;
-    end;
-  finally
-    PageTelechargement.Hide;
+  if Souci <> '' then
+  begin
+    SuppressibleMsgBox(Souci, mbCriticalError, MB_OK, IDOK);
+    Result := False;
   end;
+end;
+
+{ Filet pour l'installation silencieuse.
+
+  En mode silencieux aucune page d'assistant n'existe, donc NextButtonClick n'est
+  jamais appelé : sans ceci, une installation automatisée poserait AutoClic sans son
+  runtime, et l'application ne démarrerait pas — sans que rien ne l'ait signalé.
+  PrepareToInstall, lui, est appelé dans les deux modes. }
+function PrepareToInstall(var NeedsRestart: Boolean): String;
+begin
+  Result := '';
+
+  if WizardSilent and not DotNetDesktopPresent then
+    Result := PoserRuntime(False);
 end;
