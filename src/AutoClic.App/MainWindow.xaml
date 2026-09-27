@@ -154,12 +154,14 @@
                             <TextBlock Text="{x:Bind Loc.Get('target.hint'), Mode=OneWay}" Style="{StaticResource HintStyle}" />
 
                             <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
-                                <ComboBox
-                                    x:Name="TargetCombo"
+                                <DropDownButton
+                                    x:Name="TargetButton"
                                     HorizontalAlignment="Stretch"
-                                    ItemsSource="{x:Bind Targets}"
-                                    DisplayMemberPath="Label"
-                                    SelectionChanged="OnTargetChanged" />
+                                    HorizontalContentAlignment="Left">
+                                    <DropDownButton.Flyout>
+                                        <MenuFlyout x:Name="TargetFlyout" Placement="Bottom" />
+                                    </DropDownButton.Flyout>
+                                </DropDownButton>
 
                                 <Button
                                     x:Name="RefreshTargetsButton"
@@ -170,15 +172,19 @@
                                 </Button>
                             </Grid>
 
-                            <ComboBox
-                                x:Name="AnchorCombo"
-                                Header="{x:Bind Loc.Get('target.resize'), Mode=OneWay}"
-                                HorizontalAlignment="Stretch"
-                                SelectedIndex="0">
-                                <ComboBoxItem Content="{x:Bind Loc.Get('target.anchor.nearest'), Mode=OneWay}" />
-                                <ComboBoxItem Content="{x:Bind Loc.Get('target.anchor.topLeft'), Mode=OneWay}" />
-                                <ComboBoxItem Content="{x:Bind Loc.Get('target.anchor.scale'), Mode=OneWay}" />
-                            </ComboBox>
+                            <StackPanel Spacing="4">
+                                <TextBlock
+                                    Text="{x:Bind Loc.Get('target.resize'), Mode=OneWay}"
+                                    Style="{StaticResource HintStyle}" />
+                                <DropDownButton
+                                    x:Name="AnchorButton"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Left">
+                                    <DropDownButton.Flyout>
+                                        <MenuFlyout x:Name="AnchorFlyout" Placement="Bottom" />
+                                    </DropDownButton.Flyout>
+                                </DropDownButton>
+                            </StackPanel>
                         </StackPanel>
                     </Border>
 
@@ -270,12 +276,17 @@
                     <Border Style="{StaticResource CardStyle}">
                         <StackPanel Spacing="8">
                             <TextBlock Text="{x:Bind Loc.Get('action.language'), Mode=OneWay}" Style="{StaticResource SectionTitleStyle}" />
-                            <ComboBox
-                                x:Name="LanguageCombo"
+                            <!-- Un bouton, et non une liste déroulante : une ComboBox
+                                 qui a le focus prend la molette et change de langue
+                                 pendant qu'on fait simplement défiler le panneau. -->
+                            <DropDownButton
+                                x:Name="LanguageButton"
                                 HorizontalAlignment="Stretch"
-                                ItemsSource="{x:Bind Loc.Languages, Mode=OneWay}"
-                                DisplayMemberPath="DisplayName"
-                                SelectionChanged="OnLanguageChanged" />
+                                HorizontalContentAlignment="Left">
+                                <DropDownButton.Flyout>
+                                    <MenuFlyout x:Name="LanguageFlyout" Placement="Bottom" />
+                                </DropDownButton.Flyout>
+                            </DropDownButton>
                         </StackPanel>
                     </Border>
 

@@ -89,6 +89,19 @@ public sealed partial class MainWindow : Window
 
         Localizer.Current.LanguageChanged += (_, _) => ApplyLanguage();
 
+        _targetMenu = new MenuSelector<WindowChoice>(TargetButton, TargetFlyout, "AutoClicTarget");
+        _anchorMenu = new MenuSelector<AnchorMode>(AnchorButton, AnchorFlyout, "AutoClicAnchor");
+        _languageMenu = new MenuSelector<string>(LanguageButton, LanguageFlyout, "AutoClicLanguage");
+
+        _targetMenu.SelectionChanged += (_, _) => UpdateButtons();
+        _languageMenu.SelectionChanged += (_, _) =>
+        {
+            if (_languageMenu.SelectedValue is { } code)
+            {
+                Loc.Language = code;
+            }
+        };
+
         RefreshTargets();
         UpdateEventList();
         ApplyLanguage();
@@ -323,6 +336,10 @@ public sealed partial class MainWindow : Window
     /// <summary>Traducteur exposé aux liaisons compilées du XAML.</summary>
     public Localizer Loc => Localizer.Current;
 
+    private MenuSelector<WindowChoice>? _targetMenu;
+    private MenuSelector<AnchorMode>? _anchorMenu;
+    private MenuSelector<string>? _languageMenu;
+
     public ObservableCollection<EventRow> Rows { get; } = [];
 
     public ObservableCollection<WindowChoice> Targets { get; } = [];
@@ -330,8 +347,6 @@ public sealed partial class MainWindow : Window
     // --- Fenêtre cible ----------------------------------------------------
 
     private void OnRefreshTargetsClick(object sender, RoutedEventArgs e) => RefreshTargets();
-
-    private void OnTargetChanged(object sender, SelectionChangedEventArgs e) => UpdateButtons();
 
     private void RefreshTargets()
     {
@@ -347,17 +362,25 @@ public sealed partial class MainWindow : Window
             Targets.Add(new WindowChoice(window));
         }
 
+        RebuildTargetMenu();
         SelectTarget(previous);
     }
 
+    /// <summary>Reporte la liste des fenêtres dans le menu, libellés compris.</summary>
+    private void RebuildTargetMenu()
+    {
+        int selection = Math.Max(_targetMenu!.SelectedIndex, 0);
+        _targetMenu.SetItems([.. Targets.Select(c => (c.Label, c))], selection);
+    }
+
     private WindowDescriptor? SelectedTarget() =>
-        (TargetCombo.SelectedItem as WindowChoice)?.Window?.Descriptor;
+        _targetMenu?.SelectedValue?.Window?.Descriptor;
 
     private void SelectTarget(WindowDescriptor? descriptor)
     {
         if (descriptor is null)
         {
-            TargetCombo.SelectedIndex = 0;
+            _targetMenu!.Select(0);
             return;
         }
 
@@ -370,7 +393,7 @@ public sealed partial class MainWindow : Window
             c.Window is not null
             && string.Equals(c.Window.ProcessName, descriptor.ProcessName, StringComparison.OrdinalIgnoreCase));
 
-        TargetCombo.SelectedIndex = match is null ? 0 : Targets.IndexOf(match);
+        _targetMenu!.Select(match is null ? 0 : Targets.IndexOf(match));
     }
 
     // --- Repère visuel ----------------------------------------------------
@@ -538,12 +561,21 @@ public sealed partial class MainWindow : Window
             reference.SearchRadius);
     }
 
-    private AnchorMode SelectedAnchorMode() => AnchorCombo.SelectedIndex switch
+    private AnchorMode SelectedAnchorMode() => _anchorMenu?.SelectedValue ?? AnchorMode.Auto;
+
+    /// <summary>Reconstruit le menu d'ancrage dans la langue courante.</summary>
+    private void RebuildAnchorMenu()
     {
-        1 => AnchorMode.TopLeft,
-        2 => AnchorMode.Proportional,
-        _ => AnchorMode.Auto,
-    };
+        int selection = Math.Max(_anchorMenu!.SelectedIndex, 0);
+
+        _anchorMenu.SetItems(
+            [
+                (Loc["target.anchor.nearest"], AnchorMode.Auto),
+                (Loc["target.anchor.topLeft"], AnchorMode.TopLeft),
+                (Loc["target.anchor.scale"], AnchorMode.Proportional),
+            ],
+            selection);
+    }
 
     // --- Enregistrement ---------------------------------------------------
 
@@ -814,12 +846,12 @@ public sealed partial class MainWindow : Window
 
             RefreshTargets();
             SelectTarget(_macro.Target);
-            AnchorCombo.SelectedIndex = _macro.AnchorMode switch
+            _anchorMenu!.Select(_macro.AnchorMode switch
             {
                 AnchorMode.TopLeft => 1,
                 AnchorMode.Proportional => 2,
                 _ => 0,
-            };
+            });
 
             _reference = _macro.Reference;
 
@@ -909,7 +941,7 @@ public sealed partial class MainWindow : Window
         bool busy = _recorder.IsRecording || _playbackCts is not null || _picker.IsPicking || _modalOpen;
         bool hasMacro = _macro is { Events.Count: > 0 };
 
-        PickReferenceButton.IsEnabled = !busy && TargetCombo.SelectedItem is WindowChoice { Window: not null };
+        PickReferenceButton.IsEnabled = !busy && _targetMenu?.SelectedValue is { Window: not null };
         ClearReferenceButton.IsEnabled = !busy && _reference is not null;
 
         RecordButton.IsEnabled = !busy;
@@ -922,9 +954,9 @@ public sealed partial class MainWindow : Window
         MouseMoveToggle.IsEnabled = !busy;
         RepeatBox.IsEnabled = !busy;
         SpeedBox.IsEnabled = !busy;
-        TargetCombo.IsEnabled = !busy;
+        _targetMenu!.IsEnabled = !busy;
         RefreshTargetsButton.IsEnabled = !busy;
-        AnchorCombo.IsEnabled = !busy;
+        _anchorMenu!.IsEnabled = !busy;
 
         // Le menu système bloque le thread UI, donc les coupe-circuits F9 et Échap.
         AppIconButton.IsEnabled = !busy;
@@ -956,8 +988,17 @@ public sealed partial class MainWindow : Window
     {
         Bindings.Update();
 
-        LanguageCombo.SelectedItem = Loc.Languages.FirstOrDefault(
-            l => string.Equals(l.Code, Loc.Language, StringComparison.OrdinalIgnoreCase));
+        RebuildLanguageMenu();
+        RebuildAnchorMenu();
+
+        // Les libellés des cibles sont composés au moment où la liste est bâtie :
+        // « Aucune — coordonnées écran » resterait dans l'ancienne langue sans cela.
+        foreach (WindowChoice choix in Targets.Where(c => c.Window is null))
+        {
+            choix.Label = Loc["target.none"];
+        }
+
+        RebuildTargetMenu();
 
         if (_reference is null)
         {
@@ -975,12 +1016,20 @@ public sealed partial class MainWindow : Window
         }
     }
 
-    private void OnLanguageChanged(object sender, SelectionChangedEventArgs e)
+    /// <summary>
+    /// Reconstruit le menu des langues et coche celle qui est active.
+    /// </summary>
+    /// <remarks>
+    /// Reconstruit à chaque changement : le nom de chaque langue vient du catalogue,
+    /// et le bouton doit afficher celui de la langue désormais active.
+    /// </remarks>
+    private void RebuildLanguageMenu()
     {
-        if (LanguageCombo.SelectedItem is LanguageInfo choix)
-        {
-            Loc.Language = choix.Code;
-        }
+        List<LanguageInfo> langues = [.. Loc.Languages];
+        int actuelle = langues.FindIndex(
+            l => string.Equals(l.Code, Loc.Language, StringComparison.OrdinalIgnoreCase));
+
+        _languageMenu!.SetItems([.. langues.Select(l => (l.DisplayName, l.Code))], Math.Max(actuelle, 0));
     }
 
     private void ShowError(string message)
