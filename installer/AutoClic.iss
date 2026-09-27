@@ -9,7 +9,7 @@
 ; extérieure est le .NET 8 Desktop Runtime, détecté puis téléchargé si absent.
 
 #define AppName       "AutoClic"
-#define AppVersion    "0.1.0"
+#define AppVersion    "0.1.1"
 #define AppPublisher  "gillesg77"
 #define AppExe        "AutoClic.exe"
 
@@ -22,6 +22,11 @@ AppId={{7C3A9E14-5B62-4D08-9F31-2A6E84D1C907}
 AppName={#AppName}
 AppVersion={#AppVersion}
 AppPublisher={#AppPublisher}
+; Sans cela, setup.exe part sans numéro de version : impossible de dire,
+; devant un fichier téléchargé, lequel des deux on tient.
+VersionInfoVersion={#AppVersion}
+VersionInfoProductName={#AppName}
+VersionInfoCompany={#AppPublisher}
 DefaultDirName={autopf}\{#AppName}
 DefaultGroupName={#AppName}
 UninstallDisplayIcon={app}\{#AppExe}
