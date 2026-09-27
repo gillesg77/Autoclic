@@ -6,6 +6,6 @@
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <Company>gillesg77</Company>
     <Product>AutoClic</Product>
-    <Version>0.1.3</Version>
+    <Version>0.1.4</Version>
   </PropertyGroup>
 </Project>
