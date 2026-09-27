@@ -9,7 +9,7 @@
 ; extérieure est le .NET 8 Desktop Runtime, détecté puis téléchargé si absent.
 
 #define AppName       "AutoClic"
-#define AppVersion    "0.1.1"
+#define AppVersion    "0.1.2"
 #define AppPublisher  "gillesg77"
 #define AppExe        "AutoClic.exe"
 

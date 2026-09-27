@@ -29,6 +29,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- ApplicationIcon grave l'icône dans l'exe, ce qui suffit à l'Explorateur et à
+         la barre des tâches. La barre de titre, elle, charge ms-appx:///Assets/… —
+         un fichier posé à côté de l'exe. Sans cette copie explicite, il survit en
+         Debug par accident et disparaît de la publication : l'icône s'évanouit dans
+         la fenêtre, mais nulle part ailleurs, donc rien ne le signale avant l'install. -->
+    <Content Include="Assets\AutoClic.ico" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.250602001" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.2526" />
   </ItemGroup>
